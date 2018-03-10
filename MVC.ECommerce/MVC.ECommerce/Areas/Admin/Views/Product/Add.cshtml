@@ -1,4 +1,5 @@
-﻿@model Product
+﻿@using MVC.ECommerce.DAL.Model
+@model ProductAddModel
 
 @section links{
 
@@ -28,68 +29,71 @@
 
             <div class="form-group">
                 <label>Ürün Adı:</label>
-                @Html.DropDownListFor(x => x.CategoryId, new SelectList(ViewBag.Categories, "Value", "Text"), "Kategori Seçiniz", new { @class = "form-control" })
+                @Html.DropDownListFor(x => x.Product.CategoryId, new SelectList(ViewBag.Categories, "Value", "Text"), "Kategori Seçiniz", new { @class = "form-control" })
             </div>
 
             <div class="form-group">
                 <label>Kategori Adı :</label>
-                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @type = "text", @placeholder = "Kategori adı giriniz" })
-                <span class="text-danger">@Html.ValidationMessageFor(x => x.Name)</span>
+                @Html.TextBoxFor(x => x.Product.Name, new { @class = "form-control", @type = "text", @placeholder = "Kategori adı giriniz" })
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Product.Name)</span>
             </div>
 
             <div class="form-group">
                 <label>Ürün Başlığı:</label>
-                @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @type = "text", @placeholder = "Ürün başlığı giriniz" })
-                <span class="text-danger">@Html.ValidationMessageFor(x => x.Title)</span>
+                @Html.TextBoxFor(x => x.Product.Title, new { @class = "form-control", @type = "text", @placeholder = "Ürün başlığı giriniz" })
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Product.Title)</span>
             </div>
 
             <div class="form-group">
                 <label>Stok Miktarı:</label>
-                @Html.TextBoxFor(x => x.UnitsInStock, new { @class = "form-control", @type = "text", @placeholder = "Stok miktarı giriniz" })
-                <span class="text-danger">@Html.ValidationMessageFor(x => x.UnitsInStock)</span>
+                @Html.TextBoxFor(x => x.Product.UnitsInStock, new { @class = "form-control", @type = "text", @placeholder = "Stok miktarı giriniz" })
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Product.UnitsInStock)</span>
             </div>
 
             <div class="form-group">
                 <label>Ürün Fiyatı:</label>
                 <div class="input-group">
-                    @Html.TextBoxFor(x => x.Price, "{0:c}", new { @class = "form-control", @type = "decimal", @placeholder = "Ürün fiyatını giriniz" })
+                    @Html.TextBoxFor(x => x.Product.Price, "{0:c}", new { @class = "form-control", @type = "decimal", @placeholder = "Ürün fiyatını giriniz" })
                     <span class="btn btn-default">TL</span>
                 </div>
-                <span class="text-danger">@Html.ValidationMessageFor(x => x.Price)</span>
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Product.Price)</span>
             </div>
 
             <div class="form-group">
                 <label>Açıklama:</label><br />
                 <span style="font-size:9pt">Kalan karakter sayısı : <span style="font-size:9pt" id="karakterSayisi">250</span></span>
-                @Html.TextAreaFor(x => x.Description, 10, 10, new { @class = "form-control", @type = "text", @placeholder = "Ürün açıklaması giriniz", @id = "desc" })
-                <span class="text-danger">@Html.ValidationMessageFor(x => x.Description)</span>
+                @Html.TextAreaFor(x => x.Product.Description, 10, 10, new { @class = "form-control", @type = "text", @placeholder = "Ürün açıklaması giriniz", @id = "desc" })
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Product.Description)</span>
             </div>
 
             <div class="form-group">
                 <label>Ürün Kodu:</label>
                 <div class="input-group">
-                    @Html.TextBoxFor(x => x.ProductCode,new { @class = "form-control", @type = "text", @placeholder = "Ürün kodu oluşturunuz", @id = "productCode" })
+                    @Html.TextBoxFor(x => x.Product.ProductCode, new { @class = "form-control", @type = "text", @placeholder = "Ürün kodu oluşturunuz", @id = "productCode" })
                 </div>
-                <span class="text-danger">@Html.ValidationMessageFor(x => x.ProductCode)</span>
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Product.ProductCode)</span>
             </div>
 
             <div class="form-group">
                 <label>Stok Güncelleme Tarihi:</label>
-                @Html.TextBoxFor(x => x.StockUpDate, "{0:d}", new { @class = "form-control", @type = "text", @readonly = "readonly", @id = "stokTarih", Value = DateTime.Now.ToShortDateString() })
-                <span class="text-danger">@Html.ValidationMessageFor(x => x.StockUpDate)</span>
+                @Html.TextBoxFor(x => x.Product.StockUpDate, "{0:d}", new { @class = "form-control", @type = "text", @readonly = "readonly", @id = "stokTarih", Value = DateTime.Now.ToShortDateString() })
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Product.StockUpDate)</span>
             </div>
 
             <div class="form-group">
-                <label>Ürün fotoğrafı</label>
-                @Html.TextBox("UploadedProductPic", null, new { @multiple = "true", @type = "file", @accept = "image/*", @id = "UploadPics", @class = "form-control" })
+                <label>Ürün Görseli:</label>
+                @Html.TextBox("UploadedProductPic", null, new { @type = "file", @multiple = true, @accept = "image/*",@class="form-control" })
             </div>
-
             <input type="submit" value="Ekle" class="btn btn-outline-success" />
         }
         <br />
 
     </div>
 </div>
+
+
+
+
 
 @section scripts{
     <script>
@@ -114,7 +118,8 @@
             });
 
 
-        })
+        });
+
 
 
     </script>

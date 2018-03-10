@@ -18,26 +18,36 @@ namespace MVC.ECommerce.Areas.Admin.Controllers
     {
 
         int productId;
+        int pageSize = 20;
         protected ILogging _log;
 
-        public ProductController(IUnitOfWork uow, IFactory f, ICollect collect,ILogging log) : base(uow, f, collect)
+        public ProductController(IUnitOfWork uow, IFactory f, ICollect collect, ILogging log) : base(uow, f, collect)
         {
             _log = log;
         }
 
         #region Ürün Listeleme
-        public ActionResult List()
+        public ActionResult List(int? page)
         {
+            int sayfaNo = page ?? 1;  
+                
             var model =
                 _uow
                 .GetRepo<Product>()
                 .Where(x => x.IsDeleted == false);
+            int totalPage = (int)Math.Ceiling((decimal)(model.Count() / pageSize));
 
+            model
+                .Skip(pageSize * (sayfaNo - 1))
+                .Take(pageSize);
+
+            if (pageSize <= model.Count())
+                TempData["ListCount"] = totalPage;
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult List(int? page)
+        public ActionResult List(int page)
         {
 
 
@@ -72,6 +82,33 @@ namespace MVC.ECommerce.Areas.Admin.Controllers
                             .FirstOrDefault()
                             .Id;
                         ModelState.Clear();
+
+                        if (model.UploadedProductPic != null)
+                        {
+                            foreach (HttpPostedFileBase item in model.UploadedProductPic)
+                            {
+                                string uniqueFileName = Guid.NewGuid().ToString();
+                                string extention      = Path.GetExtension(item.FileName);
+                                string fullFileName   = HttpContext.Server.MapPath("/Media/Images/" + uniqueFileName + extention);
+                                item.SaveAs(fullFileName);
+
+                                model.ProductPics.ProductId = productId;
+                                model.ProductPics.Name      = uniqueFileName + extention;
+                                model.ProductPics.Path      = "/Media/Images/" + uniqueFileName + extention;
+
+                                ProductPics pics = new ProductPics()
+                                {
+                                    ProductId = model.ProductPics.ProductId,
+                                    Name      = model.ProductPics.Name,
+                                    Path      = model.ProductPics.Path
+                                };
+
+                                _uow.GetRepo<ProductPics>()
+                                    .Add(pics);
+                            }
+
+                            _uow.Commit();
+                        }
                     }
                     else
                     {
@@ -82,35 +119,9 @@ namespace MVC.ECommerce.Areas.Admin.Controllers
                 catch (Exception ex)
                 {
                     _log.ProgramLogging(ex.Message);
-                    
+
                 };
 
-                if (model.UploadedProductPic != null)
-                {
-                    foreach (HttpPostedFileBase item in model.UploadedProductPic)
-                    {
-                        string uniqueFileName = Guid.NewGuid().ToString();
-                        string extention = Path.GetExtension(item.FileName);
-                        string fullFileName = HttpContext.Server.MapPath("/Media/Images/" + uniqueFileName + extention);
-                        item.SaveAs(fullFileName);
-                        model.ProductPics.ProductId = productId;
-                        model.ProductPics.Name = uniqueFileName + extention;
-                        model.ProductPics.Path = "/Media/Images/" + uniqueFileName + extention;
-
-                        ProductPics pics = new ProductPics()
-                        {
-                            ProductId = model.ProductPics.ProductId,
-                            Name = model.ProductPics.Name,
-                            Path = model.ProductPics.Path
-                        };
-
-                        _uow.GetRepo<ProductPics>()
-                            .Add(pics);
-                    }
-
-                    _uow.Commit();
-
-                }
                 return View();
             }
             else
@@ -149,12 +160,7 @@ namespace MVC.ECommerce.Areas.Admin.Controllers
                 catch (Exception ex)
                 {
                     TempData["Msg"] = "Bir hata oluştu";
-                    Log log = new Log()
-                    {
-                        Date = DateTime.Now,
-                        Message = ex.Message
-                    };
-                    _uow.GetRepo<Log>().Add(log);
+                    _log.ProgramLogging(ex.Message);
                     _uow.Commit();
                 }
 
@@ -180,7 +186,7 @@ namespace MVC.ECommerce.Areas.Admin.Controllers
         private ValidationResult ModelValidate(Product model)
         {
             return _f.Create<ProductValidator, Product>(model);
-        } 
+        }
         #endregion
 
         #region Kategori Doldurma
@@ -201,7 +207,8 @@ namespace MVC.ECommerce.Areas.Admin.Controllers
                  );
 
             return cat;
-        } 
+        }
         #endregion
+
     }
 }
