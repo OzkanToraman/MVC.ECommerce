@@ -1,0 +1,45 @@
+﻿@using MVC.ECommerce.DAL.Data
+@model IEnumerable<UpCategory>
+
+
+@section links{    
+    <span class="breadcrumb-item active">Üst Kategori Listele</span>
+ }
+
+<div class="kt-mainpanel">
+    <div class="kt-pagetitle">
+        <h5>Üst Kategoriler</h5>
+    </div>
+
+    <div class="kt-pagebody">
+
+            <div class="table-wrapper">
+
+                <table id="datatable" class="table display responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th class="wd-15p">#</th>
+                            <th class="wd-15p">Kategori Adı</th>
+                            <th class="wd-15p">Açıklama</th>
+                            <th class="wd-15p"></th>
+                            <th class="wd-15p"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (UpCategory item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td>@item.Description</td>
+                                <td><a class="btn btn-outline-success" href="/Admin/UpCategory/Update/@item.Id">Güncelle</a></td>
+                                <td><a class="btn btn-outline-danger" href="/Admin/UpCategory/Delete/@item.Id">Sil</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+

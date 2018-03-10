@@ -1,0 +1,47 @@
+﻿
+@model IEnumerable<Product>
+
+@{ 
+    string controllerName = "Product";
+}
+
+
+
+<thead>
+    <tr>
+        <th class="wd-15p">#</th>
+        <th class="wd-15p">ÜRÜN ADI</th>
+        <th class="wd-15p">KATEGORİ ADI</th>
+        <th class="wd-15p">BAŞLIK</th>
+        <th class="wd-15p">STOK ADETİ</th>
+        <th class="wd-15p">FİYAT</th>
+        <th class="wd-15p">AÇIKLAMA</th>
+        <th class="wd-15p">ÜRÜN KODU</th>
+        <th class="wd-15p">STOK GÜNCELLEME</th>
+        <th class="wd-15p"></th>
+        <th class="wd-15p"></th>
+        <th class="wd-15p"></th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (Product item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.Category.Name</td>
+            <td>@item.Title</td>
+            <td>@item.UnitsInStock</td>
+            <td>@item.Price</td>
+            <td>@item.Description</td>
+            <td>@item.ProductCode</td>
+            <td>@item.StockUpDate</td>
+
+            <td>
+                @Html.ActionLink("Güncelle","Update",controllerName,new { id = @item.Id },new {@class= "btn btn-outline-success" })
+            <td>
+                @Html.ActionLink("Sil", "Delete", controllerName, new { id = @item.Id }, new { @class="btn btn-outline-danger"})
+            </td>
+        </tr>
+    }
+</tbody>

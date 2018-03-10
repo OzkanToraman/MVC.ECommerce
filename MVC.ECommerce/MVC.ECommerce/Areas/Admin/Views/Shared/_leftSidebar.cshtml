@@ -1,0 +1,106 @@
+﻿
+
+<div class="kt-sideleft">
+    <label class="kt-sidebar-label">Navigation</label>
+    <ul class="nav kt-sideleft-menu">
+        <li class="nav-item">
+            <a href="index.html" class="nav-link">
+                <i class="icon ion-ios-home-outline"></i>
+                <span>Dashboard</span>
+            </a>
+        </li><!-- nav-item -->
+
+        <li class="nav-item">
+            <a href="" class="nav-link with-sub">
+                <i class="icon ion-ios-briefcase-outline"></i>
+                <span>Üst Kategoriler</span>
+            </a>
+            <ul class="nav-sub">
+                <li class="nav-item">
+                    @Html.ActionLink("Üst Kategori Ekle", "Add", "UpCategory", null, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Listele", "List", "UpCategory", null, new { @class = "nav-link" })
+                </li>
+            </ul>
+        </li><!-- nav-item -->
+
+        <li class="nav-item">
+            <a href="" class="nav-link with-sub">
+                <i class="icon ion-clipboard"></i>
+                <span>Kategoriler</span>
+            </a>
+            <ul class="nav-sub">
+                <li class="nav-item">
+                    @Html.ActionLink("Kategori Ekle", "Add", "Category", null, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Tümünü Listele", "List", "Category", null, new { @class = "nav-link" })
+                </li>
+            </ul>
+        </li><!-- nav-item -->
+
+        <li class="nav-item">
+            <a href="" class="nav-link with-sub">
+                <i class="icon ion-ios-cart"></i>
+                <span>Ürünler</span>
+            </a>
+            <ul class="nav-sub">
+                <li class="nav-item">
+                    @Html.ActionLink("Ürün Ekle", "Add", "Product", null, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Tümünü Listele", "List", "Product", null, new { @class = "nav-link" })
+                </li>
+            </ul>
+        </li><!-- nav-item -->
+
+        <li class="nav-item">
+            <a href="" class="nav-link with-sub">
+                <i class="icon ion-chatbox"></i>
+                <span>Yorumlar</span>
+            </a>
+            <ul class="nav-sub">
+                <li class="nav-item"><a href="accordion.html" class="nav-link">Tüm Yorumlar</a></li>
+                <li class="nav-item"><a href="alerts.html" class="nav-link">Tümünü Listele</a></li>
+            </ul>
+        </li><!-- nav-item -->
+
+        <li class="nav-item">
+            <a href="" class="nav-link with-sub">
+                <i class="icon ion-person-stalker"></i>
+                <span>Kullanıcılar</span>
+            </a>
+            <ul class="nav-sub">
+                <li class="nav-item"><a href="accordion.html" class="nav-link">Kullanıcı Ekle</a></li>
+                <li class="nav-item"><a href="alerts.html" class="nav-link">Tümünü Listele</a></li>
+            </ul>
+        </li><!-- nav-item -->
+
+        <li class="nav-item">
+            <a href="" class="nav-link with-sub">
+                <i class="icon ion-ios-upload-outline"></i>
+                <span>Dosya Yöneticisi</span>
+            </a>
+            <ul class="nav-sub">
+                <li class="nav-item">
+                    @Html.ActionLink("Medya", "FileManager", "Media",null, new { @class = "nav-link" })
+                </li>
+            </ul>
+        </li><!-- nav-item -->
+
+        <li class="nav-item">
+            <a href="" class="nav-link with-sub">
+                <i class="icon ion-ios-email-outline"></i>
+                <span>Mesajlar</span>
+            </a>
+            <ul class="nav-sub">
+                <li class="nav-item"><a href="accordion.html" class="nav-link">Gelen Kutusu</a></li>
+                <li class="nav-item"><a href="alerts.html" class="nav-link">Çöp Kutusu</a></li>
+            </ul>
+        </li><!-- nav-item -->
+
+    </ul>
+
+
+</div><!-- kt-sideleft -->

@@ -1,0 +1,119 @@
+﻿@using MVC.ECommerce.DAL.Data
+@model IEnumerable<Category>
+
+
+@section links{
+    <span class="breadcrumb-item active">Kategori Listele</span>
+}
+
+<div class="kt-mainpanel">
+    <div class="kt-pagetitle">
+        <h5>Kategoriler</h5>
+    </div>
+
+    <div class="kt-pagebody">
+
+        <div class="input-group">
+            @Html.TextBox("Ara", null, new { @type = "text", @class = "form-control", @placeholder = "Kategori Adı Arama", @id = "searchText" })
+            <button class="btn btn-outline-light" id="AramaButonu">Arama Yap</button>
+        </div>
+        <br />
+        <div class="table-wrapper">
+
+            <table id="datatable" class="table display responsive nowrap">
+                @Html.Partial("_CategoryList")
+            </table>
+
+        </div>
+
+        @if (TempData["ListCount"] != null)
+        {
+            <div class="ht-80 bd d-flex align-items-center justify-content-center">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-basic mg-b-0">
+
+                        @for (int i = 1; i <= (int)TempData["ListCount"]; i++)
+                        {
+                            <li class="page-item">
+                                <button class="page-link" id="page_link_@i">@i</button>
+                            </li>
+                        }
+                        <li>
+                            <button class="page-link" aria-label="Next" id="Next">
+                                <i class="fa fa-angle-right"></i>
+                            </button>
+                        </li>
+                        <li class="page-item">
+                            <button class="page-link" aria-label="Last" id="Last">
+                                <i class="fa fa-angle-double-right"></i>
+                            </button>
+                        </li>
+                    </ul>
+
+                </nav>
+            </div>
+        }
+
+
+    </div>
+</div>
+
+@section scripts{
+
+    <script>
+
+        var lastPage = @TempData["ListCount"]
+
+        $(document).ready(function () {
+
+            $(".page-link").click(function () {
+                var page = $(this).text();
+
+                $.ajax({
+                    url: "/Admin/Category/List?page=" + page,
+                    datatype: "html",
+                    type: "post",
+                    success: function (response) {
+                        $("#datatable").html(response);
+                    },
+                });
+            });
+
+            $("#Next").click(function () {
+                page++;
+            })
+
+            $("#Last").click(function () {
+                page = lastPage;
+            })
+
+            $("#AramaButonu").click(function () {
+                var search = $("#searchText").val();
+                $.ajax({
+
+                    url: "/Admin/Category/Search?search=" + search,
+                    datatype: "html",
+                    type: "post",
+                    success: function (response) {
+
+                        $("#datatable").hide();
+                        $("#datatable").html(response).fadeIn();
+                     
+
+                    }
+                });
+            })
+
+
+
+
+        });
+
+
+
+
+    </script>
+
+
+
+}

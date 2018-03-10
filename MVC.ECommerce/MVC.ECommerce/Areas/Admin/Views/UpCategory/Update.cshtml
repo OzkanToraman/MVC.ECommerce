@@ -1,0 +1,49 @@
+﻿
+@using MVC.ECommerce.DAL.Data
+@model UpCategory
+
+@section links{
+
+    @Html.ActionLink("Üst Kategori Listele", "List", null, new { @class = "breadcrumb-item" })
+    <span class="breadcrumb-item active">Üst Kategori Güncelle</span>
+
+}
+
+<div class="kt-mainpanel">
+    <div class="kt-pagetitle">
+        <h5>Üst Kategori Güncelle</h5>
+    </div>
+
+
+    <div class="kt-pagebody">
+        <div>
+            @if (TempData["Msg"] != null)
+            {
+                <span class="alert alert-success">@TempData["Msg"]</span>
+            }
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="form-group">
+                <label>Kategori Adı :</label>
+                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @type = "text", @placeholder = "Kategori adı giriniz..." })
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Name)</span>
+            </div>
+
+            <div class="form-group">
+                <label>Açıklama:</label>
+                @Html.TextBoxFor(x => x.Description, new { @class = "form-control", @type = "text", @placeholder = "Ürün açıklaması giriniz..." })
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Description)</span>
+            </div>
+
+            <input type="submit" value="Güncelle" class="btn btn-outline-success" />
+        }
+
+        @Html.Button("Admin", "List", "UpCategory", "Geri", new Dictionary<string, string> { { "class", "btn btn-default" } })
+
+    </div>
+</div>

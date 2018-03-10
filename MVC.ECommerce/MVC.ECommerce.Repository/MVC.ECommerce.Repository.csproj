@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7119C638-1B4D-4FB3-B09F-C6FFAE977B34}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MVC.ECommerce.Repository</RootNamespace>
+    <AssemblyName>MVC.ECommerce.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_Core\Abstract\IRepository.cs" />
+    <Compile Include="_Core\Concrete\EFRepositoryBase.cs" />
+    <Compile Include="_UnitOfWork\Abstract\IUnitOfWork.cs" />
+    <Compile Include="_UnitOfWork\Concrete\UnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_Core\" />
+    <Folder Include="_UnitOfWork\" />
+    <Folder Include="_Repository\" />
+    <Folder Include="_Core\Abstract\" />
+    <Folder Include="_Core\Concrete\" />
+    <Folder Include="_UnitOfWork\Abstract\" />
+    <Folder Include="_UnitOfWork\Concrete\" />
+    <Folder Include="_Repository\Abstract\" />
+    <Folder Include="_Repository\Concrete\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

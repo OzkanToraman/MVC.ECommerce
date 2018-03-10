@@ -1,0 +1,53 @@
+﻿@using MVC.ECommerce.DAL.Data
+@model Category
+
+@section links{
+
+    @Html.ActionLink("Kategori Listele", "List", null, new { @class = "breadcrumb-item" })
+    <span class="breadcrumb-item active">Kategori Ekle</span>
+
+}
+
+<div class="kt-mainpanel">
+    <div class="kt-pagetitle">
+        <h5>Kategori Ekle</h5>
+    </div>
+
+    <div class="kt-pagebody">
+
+        <div class="row">
+            @if (TempData["Msg"] != null)
+            {
+                <span class="alert alert-success">@TempData["Msg"]</span>
+            }
+        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="form-group">
+                <label>Üst Kategori:</label>
+                @Html.DropDownListFor(x => x.UpCategoryId, new SelectList(ViewBag.UpCategories, "Value", "Text"), "Kategori Seçiniz", new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Kategori Adı :</label>
+                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @type = "text", @placeholder = "Kategori adı giriniz" })
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Name)</span>
+            </div>
+
+            <div class="form-group">
+                <label>Açıklama:</label>
+                @Html.TextBoxFor(x => x.Description, new { @class = "form-control", @type = "text", @placeholder = "Ürün açıklaması giriniz" })
+                <span class="text-danger">@Html.ValidationMessageFor(x => x.Description)</span>
+            </div>
+
+            <input type="submit" value="Ekle" class="btn btn-outline-success" />
+        }
+
+
+
+
+    </div>
+</div>

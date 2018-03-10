@@ -1,0 +1,162 @@
+﻿
+@model IEnumerable<MediaUpload>
+
+@section links{
+    <span class="breadcrumb-item active">Dosya Yöneticisi</span>
+}
+
+<div class="kt-mainpanel">
+    <div class="kt-pagetitle">
+        <h5>Dosya Yöneticisi</h5>
+    </div><!-- kt-pagetitle -->
+    <div class="kt-pagebody">
+        <div class="content-wrapper">
+
+
+
+            <div class="content-body">
+                <div class="content-body-header">
+                    <div class="d-flex ">
+
+                        <div class="btn-group mg-b-0 mg-r-10">
+
+                            <a href="" class="btn btn-default" data-toggle="modal" data-target="#modaldemo2">...</a>
+
+                        </div><!-- btn-group -->
+                    </div>
+
+                    <div class="mg-l-auto">
+                        <div class="btn-group mg-b-0 mg-l-5">
+                            <button id="trash" class="btn btn-secondary disabled" data-toggle="tooltip" data-placement="top" title="Silmek için tıklayın"><i class="icon ion-ios-trash-outline tx-20"></i></button>
+                            <button class="btn btn-secondary disabled" id="previous"><i class="icon ion-ios-arrow-back tx-20"></i></button>
+                            <button class="btn btn-secondary" id="next"><i class="icon ion-ios-arrow-forward tx-20"></i></button>
+                        </div><!-- btn-group -->
+                    </div>
+
+                </div><!-- content-body-header -->
+                <div id="tablo">
+                    @if (Model != null)
+                    {
+                        @Html.Partial("_FileManagerTable", Model)
+                    }
+                </div>
+
+
+            </div><!-- content-body -->
+        </div><!-- content-wrapper -->
+    </div><!-- kt-pagebody -->
+</div>
+<!-- SMALL MODAL -->
+<div id="modaldemo2" class="modal fade">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content bd-0 tx-14">
+            <div class="modal-header pd-x-20">
+                <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold"></h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Kapat">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pd-20">
+
+                        <div class="header ">
+                            <h4 style="text-align:center">Dosya Yükleme</h4>
+                            <p style="text-align:center">Yüklemek istediğiniz dosyaları seçip,dosya yükle butonuna tıklayınız.</p>
+                        </div><!-- signbox-header -->
+                        <br />
+                        @using (Html.BeginForm("Upload", "Media", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+            {
+                            @Html.AntiForgeryToken()
+
+                            @Html.TextBox("items", null, new { @type = "file", @multiple = true, @accept = "image/*" })
+                            <br />
+                            <input type="submit" name="name" value="Yükle" class="btn btn-default btn-block" />
+                        }
+
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary pd-x-20" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+
+
+@section scripts{
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#trash").click(function () {
+                var tiklanan = $(this);
+                var Secilenler = "";
+                $('#uploaded :checked').each(function (index, item) {
+                    //Secilenler.push($(this).val());
+                    Secilenler += $(item).val() + " ";
+                });
+
+                $.ajax({
+                    url: "/Media/DeleteUpload/?Secilenler=" + Secilenler,
+                    type: "get",
+                    datatype: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $.each(response, function (index, value) {
+                            $("tbody tr").remove("#deleted_" + value);
+                        });
+                    },
+                    error: function (xhr) {
+                        alert('İşlem başarısız!');
+                    }
+
+                });
+            });
+
+        });
+
+        $("#checkAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+     
+            $(".page-link").click(function () {
+                var id = $(this).text();
+                alert(id);
+            });
+
+        var currentPage = @ViewBag.currentPage
+            $("#next").click(function () {
+                currentPage++;
+                $.ajax({
+                    url: "/Admin/Media/FileManager?Page=" + currentPage,
+                    type: "POST",
+                    datatype: "html",
+                    success: function (response) {
+                        $("#tablo").html(response);
+                    },
+                    error: function () {
+                        alert("Hata!");
+                    }
+                });
+            });
+            $("#previous").click(function () {
+                currentPage--;
+                $.ajax({
+                    url: "/Admin/Media/FileManager?Page=" + currentPage,
+                    type: "POST",
+                    datatype: "html",
+                    success: function (response) {
+                        $("#tablo").html(response);
+                    },
+                    error: function () {
+                        alert("Hata!");
+                    }
+                });
+            });
+
+
+
+
+    </script>
+
+
+}

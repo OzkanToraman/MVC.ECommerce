@@ -1,0 +1,49 @@
+﻿@using System.Web.Optimization
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="ThemePixels">
+
+    <title>Yönetici Paneli</title>
+    @Styles.Render("~/bundlesAdmin/styles")
+    @RenderSection("styles",false)
+</head>
+<body>
+    <!-- ##### SIDEBAR LOGO ##### -->
+    <div class="kt-sideleft-header">
+        <div class="kt-logo"><a href="/Dashboard/Index/">Yönetici Paneli</a></div>
+        <div id="ktDate" class="kt-date-today"></div>
+        <div class="input-group kt-input-search">
+            <input type="text" class="form-control" placeholder="Ara...">
+            <span class="input-group-btn mg-0">
+                <button class="btn"><i class="fa fa-search"></i></button>
+            </span>
+        </div><!-- input-group -->
+    </div>
+
+    @Html.Partial("_leftSidebar")
+    @Html.Partial("_headPanel")
+   
+
+    <div class="kt-breadcrumb">
+        <nav class="breadcrumb">
+            @Html.ActionLink("Anasayfa","Index","Dashboard",new { @class="breadcrumb-item"})
+            @RenderSection("links",false)
+        </nav>
+    </div><!-- kt-breadcrumb -->
+
+        
+        @RenderBody()
+
+
+    @Scripts.Render("~/bundlesAdmin/scripts")
+    @RenderSection("scripts",false)
+</body>
+</html>
