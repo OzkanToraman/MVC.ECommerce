@@ -73,8 +73,7 @@ namespace MVC.ECommerce.Areas.Admin.Controllers
                 try
                 {
                     if (_uow.Commit() > 0)
-                    {
-                        TempData["Msg"] = "Başarıyla eklenmiştir.";
+                    {                      
                         productId =
                             _uow.GetRepo<Product>()
                             .GetList()
@@ -109,6 +108,7 @@ namespace MVC.ECommerce.Areas.Admin.Controllers
 
                             _uow.Commit();
                         }
+                        TempData["Msg"] = "Başarıyla eklenmiştir.";
                     }
                     else
                     {
